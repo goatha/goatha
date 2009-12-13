@@ -1,0 +1,3 @@
+../lib:
+slim3-EA1-SNAPSHOT.jar
+slim3-gen-EA1-SNAPSHOT.jar
