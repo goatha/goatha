@@ -1,4 +1,4 @@
-package goatha.snippet
+package com.goatha.snippet
 
 import _root_.scala.xml.{NodeSeq, Text}
 import _root_.net.liftweb.util._
