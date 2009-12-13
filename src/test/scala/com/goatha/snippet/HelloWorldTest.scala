@@ -1,4 +1,4 @@
-package goatha.snippet
+package com.goatha.snippet
 
 import org.specs._
 import org.specs.runner.JUnit3

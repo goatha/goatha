@@ -1,4 +1,4 @@
-package goatha
+package com.goatha
 
 import _root_.java.io.File
 import _root_.junit.framework._
