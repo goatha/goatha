@@ -1,4 +1,2 @@
 *.jar
-lib/
-lib_managed/
 target/
