@@ -39,12 +39,12 @@
         <dependency>
             <groupId>net.liftweb</groupId>
             <artifactId>lift-webkit</artifactId>
-            <version>1.1-M7</version>
+            <version>1.1-M8</version>
         </dependency>
         <dependency>
             <groupId>net.liftweb</groupId>
             <artifactId>lift-mapper</artifactId>
-            <version>1.1-M7</version>
+            <version>1.1-M8</version>
         </dependency>
 
         <dependency>
