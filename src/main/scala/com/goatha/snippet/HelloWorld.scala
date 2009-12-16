@@ -7,7 +7,7 @@ import _root_.java.util.Date
 import com.goatha.lib._
 import Helpers._
 
-import _root_.java.lang.reflect._
+import com.goatha.model._
 
 class HelloWorld {
   lazy val date: Box[Date] = DependencyFactory.inject[Date] // inject the date
