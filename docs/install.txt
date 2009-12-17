@@ -1,0 +1,183 @@
+-*- coding:utf-8; mode:outline -*-
+
+*GAE/J (Google App Engine for Java) 導入メモ
+
+**はじめに
+これは吉田が入れたメモで、必ずしも下記のように導入する必要はないです。
+java での環境はバージョンとパスを通せばだいたい動きますので。
+
+**環境
+windwos XP SP3
+Mac OS X 10.5.8
+
+**必要なものなど
+Java5, または Java 6 (JDK5, JDK6)
+scala
+Google App Engine for Java
+eclipse (option)
+
+**手順
+***JDK6
+http://java.sun.com/javase/downloads/widget/jdk6.jsp
+Mac の場合は下記
+http://developer.apple.com/java/download/
+
+windows では
+C:/Program Files/JDK/1.6.0_17 にインストールした。
+
+インストールした後はパスを通す
+set PATH=C:/Program Files/JDK/1.6.0_17/bin;%PATH%
+
+下記のコマンドを叩いてバージョンを確認する。
+# java -version
+ -> java version "1.6.0_17"
+# javac -version
+ -> javac 1.6.0_17
+
+
+***Scala
+現在で最新のバージョンは 2.7.7,
+http://www.scala-lang.org/downloads
+
+windows では
+C:/Program Files/Scala/2.7.7 にインストールした。
+
+インストールした後はパスを通す
+set PATH=C:/Program Files/Scala/2.7.7/bin;%PATH%
+
+下記のコマンドを叩いてバージョンを確認する。
+# scala -version
+ -> Scala code runner version 2.7.7.final -- Copyright 2002-2009, LAMP/EPFL
+
+misc/emacs や misc/vim に scala-mode があるので、利用すると便利
+
+
+***Google App Engine for Java (GAE/J)
+GAE/J をインストールします。現在の最新バージョンは 1.2.6
+http://code.google.com/intl/ja/appengine/downloads.html
+
+>Eclipse と Google Plugin を使用している場合は、Eclipse のソフトウェア更新機能で
+>App Engine SDK をインストールできます。「Google App Engine Java SDK」コンポーネントを
+>まだインストールしていない場合は、上に示した場所からインストールしてください。
+
+windows では
+C:\Program Files\Google\AppEngine\SDK\Java\1.2.6 にインストールしました。
+
+インストールした後はパスを通す
+set PATH=C:/Program Files/Google/AppEngine/Java/1.2.6/bin;%PATH%
+
+Mac では下記のように設定した
+export GAEJROOT=$HOME/sdk/Google/AppEngine/Java/1.2.6
+export GAEJBIN=$GAEJROOT/bin:$PATH
+
+**デモ
+各種パスが通っていれば下記のコマンドでアプリが起動する
+
+windows:
+# dev_appserver.cmd "C:/Program Files/Google/AppEngine/Java/1.2.6/demos/guestbook/war"
+
+Mac:
+# dev_appserver.sh $GAEJROOT/demos/guestbook/war
+
+起動が確認できたら
+
+http://localhost:8080/
+
+
+これで最低限の環境構築が出来たはず。
+
+
+**Lift の導入
+***Apache Maven
+Lift は Apache Maven でプロジェクトを作成できる。最新版は 2.2.1
+http://maven.apache.org/download.html
+
+こちらは
+C:\Program Files\Apache\Maven\2.2.1 にインストール。※インストーラでは無いのでコピー
+
+インストールした後はパスを通す
+set PATH=C:/Program Files/Apache/Maven/2.2.1/bin;%PATH%
+
+***プロジェクト作成
+Apache Maven が導入できたら、プロジェクト作成
+Lift が GAE/J に対応しているのは 1.1 以降なので安定版である 1.0 は利用できない。
+開発最新版である 1.1-M8 を利用する
+
+# mvn archetype:create -U -DarchetypeGroupId=net.liftweb -DarchetypeArtifactId=lift-archetype-blank -DarchetypeVersion=1.1-M7 -DremoteRepositories=http://scala-tools.org/repo-snapshots -DgroupId=j2 -DartifactId=PROJECT_NAME
+
+mvn archetype:generate -U -DarchetypeGroupId=net.liftweb -DarchetypeArtifactId=lift-archetype-blank -DarchetypeVersion=1.1-M8 -DremoteRepositories=http://scala-tools.org/repo-snapshots -DgroupId=com.goatha -DartifactId=goatha-project
+
+# mvn archetype:generate -U -DarchetypeGroupId=net.liftweb -DarchetypeArtifactId=lift-archetype-jpa-basic -DarchetypeVersion=1.1-M8 -DremoteRepositories=http://scala-tools.org/repo-snapshots -DgroupId=com.goatha -DartifactId=goatha-project
+
+***ビルド環境
+Simple Build Tool を利用する
+最新版は sbt-launcher-0.5.6.jar
+http://code.google.com/p/simple-build-tool/
+
+ダウンロードしたら、先ほど作成した PROJECT_NAME プロジェクトに入れる
+PROJECT_NAME/pom.xml
+PROJECT_NAME/src
+PROJECT_NAME/sbt-launcer-0.5.6.jar
+
+同ディレクトリに sbt.bat を作成する
+set SCRIPT_DIR=%~dp0
+java -Xmx512M -jar "%SCRIPT_DIR%sbt-launcher.jar" %*
+と記述して保存。
+
+詳しくはここ読んで。
+http://code.google.com/p/simple-build-tool/wiki/Setup
+
+
+sbt.bat を叩くとプロジェクトが作成される
+
+# sbt
+# set SCRIPT_DIR=PATH_TO_WORKDIRECTORY\PROJECT_NAME\
+# java -Xmx512M -jar "PROJECT_NAME\sbt-launcher-0.5.6.jar"
+Project does not exist, create new project? (y/N/s) : y
+Name: Hello World
+Organization []:
+Version [1.0]: 1.0
+Scala version [2.7.7]:
+sbt version [0.5.6]:
+
+
+# sbt compile
+コンパイルをしたらエラーが出た。設定ファイル等が間違っているかもしれない
+今回はプロジェクト作成にのみ利用した
+
+sbt ではエラーになってしまったので、代わりに Maven を使う
+
+# mvn package
+コンパイルできた。必要なライブラリは勝手にダウンロードされる
+
+# dev_appserver target\PROJECT_NAME-1.0-SNAPSHOT
+でローカル環境で実行される
+
+# appcfg update target\PROJECT_NAME-1.0-SNAPSHOT
+でアップロードされる
+
+
+*Eclipse
+install Eclipse IDE for Java Developers.
+
+
+Help -> Software Updates ... -> Available Software -> Add Site..」
+
+Scala:
+Location「http://www.scala-lang.org/scala-eclipse-plugin」
+
+Google App Engine for Java:
+http://dl.google.com/eclipse/plugin/3.5
+
+Lift:
+cd lift_project_directory
+mvn eclipse:eclipse
+mvn test
+mvn -Declipse.workspace="eclipse_workspace_directory" eclipse:add-maven-repo
+
+
+
+
+
+last-modified by y_yoshida
+2009-12-17T17:46:22+09:00
