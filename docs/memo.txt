@@ -1,0 +1,45 @@
+﻿-*- coding: utf-8-with-signature-unix; mode:outline; -*-
+
+derby をつかわないで h2
+lift-core がちょっと違う
+
+ポートの指定方法
+sbt
+
+set jetty.port 8088
+jetty-run で 8088 にならない。誰か教えて
+
+8:22 takedasoft: objectの方にクラスメソッド。classの方にカラム定義。
+8:23 takedasoft: カラム定義を変更すると、bootの度に再チェックして差分をALTER TABLEしてくれます。
+
+8:27 takedasoft: エンティティに対する操作（インスタンスメソッド）は、classの方に定義します。
+
+8:28 takedasoft: Railsとちょっと違うのは、beforeCreateなどが、クラスメソッドなところです。
+
+
+8:30 yuichi_katahira: ちょっとずれちゃいますが、テストデータの投入って普通どうやるんでしょ？
+8:31 ymnk: snippetをspecする http://blog.takeda-soft.jp/blog/show/357
+8:31 takedasoft: sbtでrakeみたいなことをやろうとしたんですが、
+8:31 yuichi_katahira: 腰おってすいません＞＜進んで下さい
+8:31 takedasoft: できてないです。
+8:32 yuichi_katahira: ありがとうございます
+8:32 takedasoft: 今はModelのobjectにbulkloadみたいなメソッド作って、consoleで投入してます。
+
+S.init(request, session) { f }
+M8ではNullpoが出る ->
+8:34 takedasoft: 1.1 M7までは行けたんですが、M8で変わりました
+8:35 takedasoft: LiftRule.rewriteが、statefullRewrite/statelessRewriteに分割されていたみたいで、
+8:35 takedasoft: そのあたりがまだ追えていません。
+8:37 takedasoft: setParameterのなかのreturnsも面白い動きです。Mockitoの機能。
+
+8:37 itosoft: snippetが把握出来てないのですが、何に相当しますか
+8:40 takedasoft: 画面遷移は基本的にXHTMLだけでやっていくんですが、XHTMLに対してロジックを編みこむのがSnippet。
+
+8:46 ymnk: http://www.scala-tools.com/mvnsites/liftweb-1.1-M8/lift-persistence/lift-mapper/scaladocs/net/liftweb/mapper/view/Paginator.html
+
+8:46 takedasoft: なに！PaginatedSnipped
+8:47 takedasoft: StatefulSnippetの仕組みです。dispatche
+8:49 takedasoft: Snippetメソッドの引数のxhtmlが、Viewで定義したxhtml。そのxhtmlの各要素を別のもの（Textなど）に入れ替える。
+8:50 takedasoft: ということをやってるのが、bindです。
+
+8:51 takedasoft: constantParamsには、By( User.name, "aa")　などを指定します。
