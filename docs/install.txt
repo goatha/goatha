@@ -176,7 +176,11 @@ mvn test
 mvn -Declipse.workspace="eclipse_workspace_directory" eclipse:add-maven-repo
 
 
+*git configuration remote path
+# git remote add goatha git@github.com:goatha/goatha.git
 
+ex)
+# git push goatha
 
 
 last-modified by y_yoshida
